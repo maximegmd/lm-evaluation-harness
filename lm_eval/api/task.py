@@ -677,7 +677,7 @@ class ConfigurableTask(Task):
             check_choices = test_choice
         else:
             check_choices = [test_target]
-        if self.config.doc_to_choice is not None:
+        if self.config.doc_to_choice is not None and len(self.config.target_delimiter) > 0:
             for choice in check_choices:
                 choice_has_whitespace = True if choice[0].isspace() else False
                 delimiter_has_whitespace = (
