@@ -1,5 +1,20 @@
 def doc_to_text(doc):
-    return f"Question: {doc['question']}\n(A) {doc['opa']}\n(B) {doc['opb']}\n(C) {doc['opc']}\n(D) {doc['opd']}\nAnswer: ("
+    choices = "\n".join([f'- "({k}) {v}"' for i, (k, v) in enumerate(doc["options"].items())])
+    return f'''### System:
+Choose the answer that best answers the question. Explain your reasoning.
+
+### Instruction:
+{doc['question']}
+
+### Input:
+- "(A) {doc['opa']}"
+- "(B) {doc['opb']}"
+- "(C) {doc['opc']}"
+- "(D) {doc['opd']}"
+
+### Response:
+
+Answer: ('''
 
 def doc_to_target(doc):
     return '' + chr(ord('A') + int(doc["cop"]))
