@@ -10,7 +10,10 @@ import hashlib
 from tqdm import tqdm
 
 from lm_eval import utils
-from lm_eval.logger import eval_logger
+
+import logging
+
+eval_logger = logging.getLogger("lm-eval")
 
 T = TypeVar("T", bound="LM")
 
@@ -130,13 +133,6 @@ class LM(abc.ABC):
         additional_config = {} if additional_config is None else additional_config
         args = utils.simple_parse_args_string(arg_string)
         args2 = {k: v for k, v in additional_config.items() if v is not None}
-        # TODO: delete once float16 MPS is fixed in torch stable
-        if (
-            args2.get("device") in ("mps", "mps:0")
-            or args.get("device") in ("mps", "mps:0")
-            and "dev" not in torch.__version__
-        ):
-            args["dtype"] = "float32"
         return cls(**args, **args2)
 
     @property
